@@ -1,0 +1,9 @@
+{% extends 'menu/base.html' %}
+
+{% block title %}Home - My Pizza Shop{% endblock %}
+
+{% block content %}
+    <h1>Welcome to My Pizza Shop!</h1>
+    <p>Get your awesome pizzas, toppings, and drinks right here.</p>
+    <p>Ready to order? <a href="{% url 'menu_list' %}">Check out the Menu!</a></p>
+{% endblock %} 

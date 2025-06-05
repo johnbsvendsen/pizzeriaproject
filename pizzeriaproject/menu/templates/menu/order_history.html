@@ -1,0 +1,71 @@
+{% extends 'menu/base.html' %}
+
+{% block title %}My Orders - My Pizza Shop{% endblock %}
+
+{% block content %}
+    <h1>My Past Orders</h1>
+
+
+    {% if orders %}
+        {% for order in orders %}
+            <div class="order-summary">
+                <h3>Order #{{ order.id }}</h3>
+                <p><strong>Date Placed:</strong> {{ order.created_at|date:"F j, Y, P" }}</p>
+                <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+                <p><strong>Status:</strong> {% if order.is_completed %}Completed{% else %}Pending <small>(call us if it takes too long!)</small>{% endif %}</p>
+                
+                <h4>Items:</h4>
+                <table class="order-items-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Details</th>
+                            <th>Quantity</th>
+                            <th>Price Paid (Unit)</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.items.all %}
+                            <tr>
+                                <td>
+                                    {% if item.pizza %}
+                                        {{ item.pizza.name }}
+                                    {% elif item.drink %}
+                                        {{ item.drink.name }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if item.pizza %}
+                                        Size: {{ item.get_size_display }}
+                                        {% if item.selected_toppings.all %}
+                                            <br>Toppings:
+                                            <ul>
+                                                {% for topping in item.selected_toppings.all %}
+                                                    <li>{{ topping.name }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </td>
+                                <td>{{ item.quantity }}</td>
+                                <td>${{ item.price_at_purchase }}</td>
+                                <td>${{ item.get_item_total }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                 <!-- <p><a href="#">Reorder this?</a></p> -->
+            </div>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <p>Looks like you haven't ordered anything yet!</p>
+    {% endif %}
+
+{% endblock %} 
+
+
+

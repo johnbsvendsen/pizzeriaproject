@@ -1,0 +1,86 @@
+{% extends 'menu/base.html' %}
+
+{% block title %}Menu - My Pizza Shop{% endblock %}
+
+{% block content %}
+    <h1>The Menu</h1>
+
+
+    <h2>Pizzas</h2>
+    <div class="menu-section">
+        {% if pizzas %}
+            {% for pizza in pizzas %}
+                <div class="menu-item pizza-item">
+                    <h3>{{ pizza.name }}</h3>
+                    <!-- <p><em>Our best seller!</em></p> --> <!-- Example of a temporary highlight idea -->
+                    <p>{{ pizza.description }}</p>
+                    {% if pizza.image %}
+                        <img src="{{ pizza.image.url }}" alt="{{ pizza.name }}" style="max-width: 150px; height: auto; border:1px solid #eee;"> <!-- quick border -->
+                    {% endif %}
+                    
+                    <form method="post" action="{% url 'add_to_cart' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="item_id" value="{{ pizza.id }}">
+                        <input type="hidden" name="item_type" value="pizza">
+
+                        <p><strong>Select Size:</strong></p>
+                        {% for value, display_name in pizza_sizes %}
+                            <input type="radio" name="size" value="{{ value }}" id="size_{{ pizza.id }}_{{ value }}" {% if forloop.first %}checked{% endif %}>
+                            <label for="size_{{ pizza.id }}_{{ value }}">{{ display_name }} 
+                                ({% if value == 'S' %}${{ pizza.base_price_small }}{% elif value == 'M' %}${{ pizza.base_price_medium }}{% elif value == 'L' %}${{ pizza.base_price_large }}{% endif %})
+                            </label><br>
+                        {% endfor %}
+
+                        {% if toppings %}
+                            <p><strong>Add Toppings:</strong> (Price varies by size)</p>
+                            <!-- TODO: better layout for toppings list, maybe columns? -->
+                            {% for topping in toppings %}
+                                <input type="checkbox" name="selected_toppings" value="{{ topping.id }}" id="topping_{{ pizza.id }}_{{ topping.id }}">
+                                <label for="topping_{{ pizza.id }}_{{ topping.id }}">{{ topping.name }}</label><br>
+                            {% endfor %}
+                        {% endif %}
+
+                        <label for="quantity_pizza_{{ pizza.id }}">Quantity:</label>
+                        <input type="number" name="quantity" value="1" min="1" id="quantity_pizza_{{ pizza.id }}"><br><br>
+                        
+                        <button type="submit">Add to Cart</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Aw, no pizzas on the menu right now. Check back later!</p>
+        {% endif %}
+    </div>
+
+    <h2>Drinks</h2>
+    <div class="menu-section">
+        {% if drinks %}
+            {% for drink in drinks %}
+                <div class="menu-item drink-item">
+                    <h3>{{ drink.name }}</h3>
+                    <p>Price: ${{ drink.price }}</p>
+                    {% if drink.image %}
+                        <img src="{{ drink.image.url }}" alt="{{ drink.name }}" style="max-width: 100px; height: auto;">
+                    {% endif %}
+
+                    <form method="post" action="{% url 'add_to_cart' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="item_id" value="{{ drink.id }}">
+                        <input type="hidden" name="item_type" value="drink">
+                        
+                        <label for="quantity_drink_{{ drink.id }}">Quantity:</label>
+                        <input type="number" name="quantity" value="1" min="1" id="quantity_drink_{{ drink.id }}"><br><br>
+
+                        <button type="submit">Add to Cart</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No drinks to show at the moment.</p>
+        {% endif %}
+    </div>
+
+{% endblock %} 
+
+
+

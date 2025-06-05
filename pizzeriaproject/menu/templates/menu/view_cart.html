@@ -1,0 +1,67 @@
+{% extends 'menu/base.html' %}
+
+{% block title %}Your Cart - My Pizza Shop{% endblock %}
+
+{% block content %}
+    <h1>What's in Your Cart?</h1>
+    <!-- fix later-->
+
+    {% if cart %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Details</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, item in cart.items %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>
+                            {% if item.type == 'pizza' %}
+                                Size: {{ item.size_display }}<br>
+                                {% if item.selected_toppings %}
+                                    Toppings:
+                                    <ul>
+                                        {% for topping in item.selected_toppings %}
+                                            <li>{{ topping.name }} <span style="color: #555;">(+${{ topping.price }})</span></li> <!-- Quick style for price -->
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    No extra toppings.
+                                {% endif %}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td>${{ item.unit_price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.total_price }}</td>
+                        <td>
+                            <form method="post" action="{% url 'remove_from_cart' %}" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="cart_item_key" value="{{ key }}">
+                                <button type="submit" class="remove-button">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h3>Cart Total: ${{ cart_total }}</h3>
+        <a href="{% url 'place_order' %}" class="button">Place Your Order!</a>
+        
+    {% else %}
+        <p>Your cart is looking a bit lonely!</p>
+        <p><a href="{% url 'menu_list' %}">Go grab some food!</a></p>
+    {% endif %}
+
+{% endblock %} 
+
+
+
