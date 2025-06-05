@@ -1,4 +1,4 @@
-# ELE 3921 - Pizza Take-Out Project
+Pizza Take-Out Project
 
 This is my Django project for a pizza take-out shop. Customers can look at the menu, pick sizes and toppings for pizzas, add stuff to their cart, and then place an order. Admins can use the Django admin panel to change the menu (pizzas, toppings, drinks) and check on all the orders.
 
@@ -15,14 +15,13 @@ This is my Django project for a pizza take-out shop. Customers can look at the m
 ## Setup:
 
 1.  **Clone it:**
-    First, get the code from GitHub (replace `<your-repository-url>` with the actual link!).
-    ```bash
-    git clone <your-repository-url>
-    cd TakeOutPizza
+    First, get the code from GitHub 
+    git clone https://github.com/johnbsvendsen/pizzeriaproject
+    cd pizzeriaproject
     ```
 
-2.  **Make a virtual environment (Good idea!):**
-    This keeps all the Python stuff for this project separate.
+2.  **Make a virtual environment:**
+    This keeps all the Python files for this project separate.
     ```bash
     python -m venv venv
     ```
@@ -31,7 +30,7 @@ This is my Django project for a pizza take-out shop. Customers can look at the m
     *   Mac/Linux: `source venv/bin/activate`
 
 3.  **Install the requirements:**
-    Make sure you're in the main `TakeOutPizza` folder (where `requirements.txt` is).
+    Make sure you're in the main `pizzeriaproject` folder (where `requirements.txt` is).
     ```bash
     pip install -r requirements.txt
     ```
@@ -71,21 +70,19 @@ This is my Django project for a pizza take-out shop. Customers can look at the m
 
 ## Test Logins:
 
-(You'll need to fill this in with actual usernames/passwords you create for testing, or explain how to make them if not using the data.json for users)
-
 *   **Admin:**
-    *   Username: `[Your Superuser Username]`
-    *   Password: `[Your Superuser Password]`
+    *   Username: `Username`
+    *   Password: `Password123`
 *   **Sample Customer:**
-    *   Username: `[A Customer Username you registered]`
-    *   Password: `[Their Password]`
+    *   Username: `Customer`
+    *   Password: `Passcode-123`
 
-## Known Issues / Stuff I Might Add Later:
+## Known Issues / Improvements:
 
-*   **Images look a bit basic:** Could make the pizza/drink images look cooler or have a gallery.
+*   **Images:** Could make the pizza/drink have images.
 *   **No real payment:** Obviously, this doesn't actually take your money. Would need to add something like Stripe or PayPal if it were real.
-*   **More pizza customization?** Maybe different crust types or special default toppings for some pizzas.
-*   **Order tracking map:** Like how Domino's shows your pizza on a map. That would be awesome (but probably super hard).
-*   **Forgot password:** Didn't get around to adding a password reset for users.
-*   **Responsive design:** It's okay on mobile, but could be much better. Need to learn more CSS for that.
-*   Sometimes the session seems a bit sticky if I make big code changes and don't clear cookies. (Student observation) 
+*   **Forgot password:** Did not get around to adding a password reset for users.
+*   **Design:** It's okay, but could be much better. Need to improve CSS skills for that.
+
+
+
